@@ -1,4 +1,7 @@
 from PyQt5 import QtWidgets, QtCore, QtGui      # Importando as bibliotecas so PyQt5 
+                                                #   QtWidgets → janelas, botões, interface
+                                                #   QtWidgets → janelas, botões, interface
+                                                #   QtGui → desenho (cores, pincéis, etc)
 
 class Overlay(QtWidgets.QWidget):   #   Criando a classe Overlay que herda de QWidget
     def __init__(self):   # Método construtor da classe
