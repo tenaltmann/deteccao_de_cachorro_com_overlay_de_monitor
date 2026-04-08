@@ -4,7 +4,7 @@ from PyQt5 import QtWidgets, QtCore, QtGui      # Importando as bibliotecas so P
                                                 #   QtGui → desenho (cores, pincéis, etc)
 
 class Overlay(QtWidgets.QWidget):   #   Criando a classe Overlay que herda de QWidget
-    def __init__(self):   # Método construtor da classe
+    def __init__(self, monitor_area=None):   # Método construtor da classe
         super().__init__()   # Chamando o construtor da classe pai
 
         self.setWindowFlags(        # Definindo as flags da janela para que ela seja transparente e fique sempre no topo
@@ -16,9 +16,18 @@ class Overlay(QtWidgets.QWidget):   #   Criando a classe Overlay que herda de QW
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)   # Define o fundo da janela como transparente
         self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents)   # Permite que os eventos de mouse passem através da janela, tornando-a clicável
 
-        screen = QtWidgets.QApplication.primaryScreen()  # Obtém a tela principal
-        size = screen.size()   # Obtém o tamanho da tela
-        self.setGeometry(0, 0, size.width(), size.height())   # Define a geometria da janela para cobrir toda a tela
+        if monitor_area:
+            # Alinha o overlay com a mesma região capturada pelo mss (monitor correto).
+            self.setGeometry(
+                monitor_area["left"],
+                monitor_area["top"],
+                monitor_area["width"],
+                monitor_area["height"],
+            )
+        else:
+            screen = QtWidgets.QApplication.primaryScreen()  # Obtém a tela principal
+            size = screen.size()   # Obtém o tamanho da tela
+            self.setGeometry(0, 0, size.width(), size.height())   # Define a geometria da janela para cobrir toda a tela
 
         self.boxes = []   # Lista para armazenar os retângulos desenhados
 

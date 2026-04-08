@@ -1,5 +1,6 @@
 # ===== IMPORTS PRINCIPAIS =====
 import sys                          # Permite interagir com o sistema (argumentos e saída do programa)
+import os
 from PyQt5 import QtWidgets        # Módulo do PyQt responsável pela interface gráfica
 
 
@@ -17,9 +18,12 @@ def main():
 
     # ===== INSTÂNCIAS DOS COMPONENTES =====
 
-    capture = ScreenCapture()   # Responsável por capturar frames da tela
+    # Defina MONITOR_INDEX=1,2,3... para escolher qual monitor capturar/desenhar.
+    monitor_index = int(os.getenv("MONITOR_INDEX", "1"))
+
+    capture = ScreenCapture(monitor_index=monitor_index)   # Responsável por capturar frames da tela
     detector = Detector()       # Responsável por detectar objetos nos frames
-    overlay = Overlay()         # Janela transparente que desenha os retângulos na tela
+    overlay = Overlay(monitor_area=capture.monitor)         # Janela transparente que desenha os retângulos na tela
 
 
     # ===== THREAD DE PROCESSAMENTO =====
